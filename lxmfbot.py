@@ -11,6 +11,7 @@ from   types   import SimpleNamespace
 class LXMFBot:
 
     delivery_callbacks = []
+    receipts = []
     queue = Queue(maxsize = 5)
 
     def __init__(self, name='LXMFBot'):
@@ -45,7 +46,7 @@ class LXMFBot:
         if announce > int(time.time()):
             RNS.log('Recent announcement', RNS.LOG_DEBUG)
         else:
-            with open(self.announce_path, "w") as af:
+            with open(self.announce_path, "w+") as af:
                 next_announce = int(time.time()) + 1800
                 af.write(str(next_announce))
             self.local.announce()
@@ -57,17 +58,24 @@ class LXMFBot:
     
     def _message_received(self, message):
         sender = RNS.hexrep(message.source_hash, delimit=False)
+        receipt = RNS.hexrep(message.hash, delimit=False)
+        RNS.log(f'Message receipt <{receipt}>', RNS.LOG_INFO)
         def reply(msg):
             self.send(sender, msg)
-        for callback in self.delivery_callbacks:
-            obj = {
-                'lxmf' : message,
-                'reply' : reply,
-                'sender' : sender,
-                'content' : message.content.decode('utf-8')
-            }
-            msg = SimpleNamespace(**obj)
-            callback(msg)
+        if receipt not in self.receipts:
+            self.receipts.append(receipt)
+            if len(self.receipts) > 100:
+                self.receipts.pop(0)
+            for callback in self.delivery_callbacks:
+                obj = {
+                    'lxmf' : message,
+                    'reply' : reply,
+                    'sender' : sender,
+                    'content' : message.content.decode('utf-8'),
+                    'hash' : receipt
+                }
+                msg = SimpleNamespace(**obj)
+                callback(msg)
 
     def send(self, destination, message, title='Reply'):
         try:

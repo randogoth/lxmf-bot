@@ -15,7 +15,7 @@ $ pip install -r requirements.txt
 - Use the `<instance>.send(recipient_hash, message)` or `msg.reply(message)` methods to send messages
 - Launch the bot using the `run` method
 
-## Message Object
+### Message Object
 
 Functions decorated by `received` have access to a `msg` parameter that has the following content:
 

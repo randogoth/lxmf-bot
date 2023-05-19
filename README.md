@@ -12,8 +12,17 @@ $ pip install -r requirements.txt
 
 - Instantiate the class with a name for the bot as parameter
 - Use the `received` decorator to define functions for parsing received messages
-- Use the `send(recipient_hash, message)` or `reply(message)` methods to send messages
+- Use the `<instance>.send(recipient_hash, message)` or `msg.reply(message)` methods to send messages
 - Launch the bot using the `run` method
+
+## Message Object
+
+Functions decorated by `received` have access to a `msg` parameter that has the following content:
+
+- `msg.sender` : the sender hash address
+- `msg.content`: the received message as utf-8 string
+- `msg.reply` : function that takes a string parameter and sends it as reply to the sender
+- `msg.lxmf` : the complete `LXMessage` object for more complex parsing
 
 Example of a bot that echos a message back to the sender:
 

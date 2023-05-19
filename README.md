@@ -29,7 +29,7 @@ Functions decorated by `received` have access to a `msg` parameter that has the 
 Example of a bot that echos a message back to the sender:
 
 ```Python
-from bot import LXMFBot
+from lxmfbot import LXMFBot
 
 bot = LXMFBot("NodeBot")
 

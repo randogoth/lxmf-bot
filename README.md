@@ -45,7 +45,7 @@ bot.run()
 The bots' identity and announce file location
 
 | OS | Path |
-|----|------|
+|:-- |:--- |
 | Linux: | `~/.local/share/LXMFBot/<botname>` |
 | MacOS: | `~/Library/Application Support/LXMFBot/<botname>` |
 | Windows: | `C:\Users\<username>\AppData\Local\LXMFBot\<botname>` |

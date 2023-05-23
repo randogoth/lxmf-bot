@@ -39,3 +39,11 @@ def echo_msg(msg):
 
 bot.run()
 ```
+
+### Identity & Announce Files
+
+The bots' identity and announce files are stored in 
+
+Linux: `~/.local/share/LXMFBot/<botname>`
+MacOS: `~/Library/Application Support/LXMFBot/<botname>`
+Windows: `C:\Users\<username>\AppData\Local\LXMFBot\<botname>`

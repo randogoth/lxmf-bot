@@ -19,13 +19,15 @@ class LXMFBot:
         # initialize identiy
         self.name = name
         dirs = AppDirs("LXMFBot", "randogoth")
-        idpath = os.path.join(dirs.user_data_dir, "identity")
-        self.announce_path = os.path.join(dirs.user_data_dir, "announce")
-        if not os.path.isfile(idpath):
+        self.config_path = os.path.join(dirs.user_data_dir, name)
+        idfile = os.path.join(self.config_path, "identity")
+        if not os.path.isdir(self.config_path):
+                os.mkdir(self.config_path)
+        if not os.path.isfile(idfile):
             RNS.log('No Primary Identity file found, creating new...', RNS.LOG_INFO)
-            id = RNS.Identity()
-            id.to_file(idpath)
-        self.id = RNS.Identity.from_file(idpath)
+            id = RNS.Identity(True)
+            id.to_file(idfile)
+        self.id = RNS.Identity.from_file(idfile)
         RNS.log('Loaded identity from file', RNS.LOG_INFO)
 
         # start RNS and LXMFRouter
@@ -37,8 +39,9 @@ class LXMFBot:
         self._announce()
 
     def _announce(self):
-        if os.path.isfile(self.announce_path):
-            with open(self.announce_path, "r") as f:
+        announce_path = os.path.join(self.config_path, "announce")
+        if os.path.isfile(announce_path):
+            with open(announce_path, "r") as f:
                 announce = int(f.readline())
         else:
             RNS.log('failed to open announcepath', RNS.LOG_DEBUG)
@@ -46,7 +49,7 @@ class LXMFBot:
         if announce > int(time.time()):
             RNS.log('Recent announcement', RNS.LOG_DEBUG)
         else:
-            with open(self.announce_path, "w+") as af:
+            with open(announce_path, "w+") as af:
                 next_announce = int(time.time()) + 1800
                 af.write(str(next_announce))
             self.local.announce()

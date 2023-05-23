@@ -1,6 +1,6 @@
 from lxmfbot import LXMFBot
 
-bot = LXMFBot("NodeBot")
+bot = LXMFBot("testbot")
 
 @bot.received
 def echo_msg(msg):

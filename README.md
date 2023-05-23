@@ -42,8 +42,10 @@ bot.run()
 
 ### Identity & Announce Files
 
-The bots' identity and announce files are stored in 
+The bots' identity and announce file location
 
-Linux: `~/.local/share/LXMFBot/<botname>`
-MacOS: `~/Library/Application Support/LXMFBot/<botname>`
-Windows: `C:\Users\<username>\AppData\Local\LXMFBot\<botname>`
+| OS | Path |
+|----|------|
+| Linux: | `~/.local/share/LXMFBot/<botname>` |
+| MacOS: | `~/Library/Application Support/LXMFBot/<botname>` |
+| Windows: | `C:\Users\<username>\AppData\Local\LXMFBot\<botname>` |

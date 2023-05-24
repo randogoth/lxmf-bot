@@ -13,14 +13,18 @@ class LXMFBot:
     delivery_callbacks = []
     receipts = []
     queue = Queue(maxsize = 5)
+    announce_time = 360
 
-    def __init__(self, name='LXMFBot'):
+    def __init__(self, name='LXMFBot', announce=360, announce_immediately=False):
 
         # initialize identiy
         self.name = name
+        self.announce_time = announce
         dirs = AppDirs("LXMFBot", "randogoth")
         self.config_path = os.path.join(dirs.user_data_dir, name)
         idfile = os.path.join(self.config_path, "identity")
+        if not os.path.isdir(dirs.user_data_dir):
+                os.mkdir(dirs.user_data_dir)
         if not os.path.isdir(self.config_path):
                 os.mkdir(self.config_path)
         if not os.path.isfile(idfile):
@@ -29,6 +33,11 @@ class LXMFBot:
             id.to_file(idfile)
         self.id = RNS.Identity.from_file(idfile)
         RNS.log('Loaded identity from file', RNS.LOG_INFO)
+        if announce_immediately:
+            af = os.path.join(self.config_path, "announce")
+            if os.path.isfile(af):
+                os.remove(af)
+                RNS.log('Announcing now. Timer reset.', RNS.LOG_INFO)
 
         # start RNS and LXMFRouter
         RNS.Reticulum(loglevel=RNS.LOG_VERBOSE)
@@ -50,7 +59,7 @@ class LXMFBot:
             RNS.log('Recent announcement', RNS.LOG_DEBUG)
         else:
             with open(announce_path, "w+") as af:
-                next_announce = int(time.time()) + 1800
+                next_announce = int(time.time()) + self.announce_time
                 af.write(str(next_announce))
             self.local.announce()
             RNS.log('Announcement sent, expr set 1800 seconds', RNS.LOG_INFO)

@@ -10,7 +10,8 @@ $ pip install -r requirements.txt
 
 ## Usage
 
-- Instantiate the class with a name for the bot as parameter
+- Instantiate the class with a `name` for the bot as parameter. 
+  - Two additional options the class takes as parameters are `announce` to define the announce interval in seconds (defaults to `360`) and an `announce_immediately` boolean to define whether the bot should announce itself immediately after instantiation or not (defaults to `False`)
 - Use the `received` decorator to define functions for parsing received messages
 - Use the `<instance>.send(recipient_hash, message)` or `msg.reply(message)` methods to send messages
 - Launch the bot using the `run` method

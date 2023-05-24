@@ -2,6 +2,8 @@
 
 Python class to easily develop a simple Telethon style chatbot for the LXMF protocol.
 
+![screenshot](screenshot.png)
+
 ## Installation
 
 ```
